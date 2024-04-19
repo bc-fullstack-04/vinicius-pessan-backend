@@ -2,6 +2,7 @@ package br.com.sysmap.bootcamp.web;
 
 
 import br.com.sysmap.bootcamp.domain.model.AlbumModel;
+import br.com.sysmap.bootcamp.domain.service.AlbumService;
 import br.com.sysmap.bootcamp.domain.service.integration.SpotifyApi;
 import lombok.RequiredArgsConstructor;
 import org.apache.hc.core5.http.ParseException;
@@ -20,10 +21,15 @@ import java.util.List;
 @RequestMapping("/albums")
 public class AlbumController {
 
-    private final SpotifyApi spotifyApi;
+    private  final AlbumService albumService;
 
     @GetMapping("/all")
     public ResponseEntity<List<AlbumModel>> getAlbums(@RequestParam("search") String search) throws IOException, ParseException, SpotifyWebApiException {
-        return ResponseEntity.ok(this.spotifyApi.getAlbums(search));
+        return ResponseEntity.ok(this.albumService.getAlbums(search));
+    }
+
+    @GetMapping("/teste")
+    public void teste(){
+        this.albumService.teste();
     }
 }

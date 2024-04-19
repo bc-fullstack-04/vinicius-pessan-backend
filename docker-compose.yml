@@ -11,16 +11,31 @@ services:
     networks:
       - backend
   postgres_bootcamp:
-   build:
-     context: ./postgres
-   image: vinipessan/postgres_bootcamp:latest
-   ports:
+    build:
+      context: ./postgres
+    image: vinipessan/postgres_bootcamp:latest
+    ports:
       - 5432:5432
-   container_name: postgres_bootcamp
-   networks:
+    container_name: postgres_bootcamp
+    networks:
       - backend
+  bootcamp-user-api:
+   build:
+     context: ./app-user-api
+     dockerfile: ../app-user-api/Dockerfile
+   image: vinipessan/rabbitmq_bootcamp:latest
+   ports:
+     - 8081:8081
+   container_name: app-user-api
+   environment:
+       - POSTGRES_URL=postgres_bootcamp
+       - POSTGRES_USER=bootcamp
+       - POSTGRES_PASSWORD=bootcamppass
+       - POSTGRES_DATABASE=bootcamp
+   depends_on:
+      - postgres_bootcamp
+   networks:
+       - backend
 networks:
   backend:
     driver: "bridge"
-
-
