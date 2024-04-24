@@ -1,7 +1,7 @@
 # vinicius-pessan-backend
 Projeto backend - Vinicius Pessan 
 
-# Requisitos
+# Requirements
 Java 17+
 Docker
 
