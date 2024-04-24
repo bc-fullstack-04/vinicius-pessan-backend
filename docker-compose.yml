@@ -23,11 +23,12 @@ services:
    build:
      context: ./app-user-api
      dockerfile: ../app-user-api/Dockerfile
-   image: vinipessan/rabbitmq_bootcamp:latest
+   image: vinipessan/app-user-api:latest
    ports:
      - 8081:8081
    container_name: app-user-api
    environment:
+       - RABBIT_HOST=rabbitmq_bootcamp
        - POSTGRES_URL=postgres_bootcamp
        - POSTGRES_USER=bootcamp
        - POSTGRES_PASSWORD=bootcamppass
@@ -36,6 +37,24 @@ services:
       - postgres_bootcamp
    networks:
        - backend
+  bootcamp-integration-api:
+    build:
+     context: ./app-integration-api
+     dockerfile: ../app-integration-api/Dockerfile
+    image: vinipessan/app-integration-api:latest
+    ports:
+    - 8082:8082
+    container_name: app-integration-api
+    environment:
+           - RABBIT_HOST=rabbitmq_bootcamp
+           - POSTGRES_URL=postgres_bootcamp
+           - POSTGRES_USER=bootcamp
+           - POSTGRES_PASSWORD=bootcamppass
+           - POSTGRES_DATABASE=bootcamp
+    depends_on:
+     - postgres_bootcamp
+    networks:
+      - backend
 networks:
   backend:
     driver: "bridge"

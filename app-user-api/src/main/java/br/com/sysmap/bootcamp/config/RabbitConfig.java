@@ -2,6 +2,8 @@ package br.com.sysmap.bootcamp.config;
 
 
 import br.com.sysmap.bootcamp.domain.listeners.WalletListener;
+import br.com.sysmap.bootcamp.domain.service.WalletService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +12,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-
+@RequiredArgsConstructor
 @Configuration
 public class RabbitConfig {
+
+    private final WalletService walletService;
+
 
     @Bean
     public RestTemplate restTemplate(){
@@ -26,7 +31,7 @@ public class RabbitConfig {
 
     @Bean
     public WalletListener receiver(){
-        return new WalletListener();
+        return new WalletListener(walletService);
     }
 
     @Bean
